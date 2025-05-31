@@ -77,7 +77,7 @@ export default function Home() {
       <div 
         className="flex-1 flex flex-col transition-all duration-300 ease-in-out min-h-0"
         style={{
-          marginLeft: isDrawerOpen ? '340px' : '0px'
+          marginLeft: isDrawerOpen ? '300px' : '0px'
         }}
       >
         <TopBar onMenuClick={toggleDrawer} selectedItem={getCurrentSelectedTab()} />

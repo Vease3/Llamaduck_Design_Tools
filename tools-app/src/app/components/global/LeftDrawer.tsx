@@ -44,14 +44,14 @@ const LeftDrawer: React.FC<LeftDrawerProps> = ({ isOpen, selectedItem, onNavigat
   ];
 
   return (
-    <div className={`w-[340px] h-screen bg-[var(--system-color-elevation-one-background)] border-r border-[var(--system-color-border-primary)] flex flex-col fixed left-0 top-0 z-10 transition-transform duration-300 ease-in-out ${
+    <div className={`w-[300px] h-screen bg-[var(--system-color-elevation-one-background)] border-r border-[var(--system-color-border-primary)] flex flex-col fixed left-0 top-0 z-10 transition-transform duration-300 ease-in-out ${
       isOpen ? 'translate-x-0' : '-translate-x-full'
     }`}>
       {/* Header Section */}
       <div className="flex items-center gap-4 p-6">
         {/* Logo */}
-        <div className="w-14 h-14 flex items-center justify-center">
-          <svg width="56" height="56" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <div className="w-10 h-10 flex items-center justify-center">
+          <svg width="40" height="40" viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
             <rect width="56" height="56" rx="14" fill="#0B3183"/>
             <g clipPath="url(#Frame15__a)">
               <path fill="#fff" d="M23.816 28H35.08v10.621H23.816z"/>
@@ -98,7 +98,7 @@ const LeftDrawer: React.FC<LeftDrawerProps> = ({ isOpen, selectedItem, onNavigat
                     <button
                       key={itemIndex}
                       onClick={() => onNavigation(item.title)}
-                      className={`flex items-center gap-2 px-4 py-3 rounded-lg transition-colors group w-full text-left ${
+                      className={`flex items-center gap-2 px-4 py-3 rounded-lg transition-colors group w-full text-left cursor-pointer ${
                         isSelected 
                           ? 'bg-[var(--system-color-elevation-base-content)]' 
                           : 'bg-transparent hover:bg-[var(--system-color-elevation-base-hover)]'
