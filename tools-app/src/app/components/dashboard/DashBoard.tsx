@@ -10,15 +10,12 @@ interface ToolCard {
   icon: React.ComponentType<{ className?: string }>;
 }
 
-const Dashboard: React.FC = () => {
+interface DashboardProps {
+  onToolSelect?: (toolId: string) => void;
+}
+
+const Dashboard: React.FC<DashboardProps> = ({ onToolSelect }) => {
   const toolCards: ToolCard[] = [
-    {
-      id: '1',
-      title: 'Featured Tools',
-      description: 'A collection of useful design tools',
-      category: 'Animation',
-      icon: LayoutPanelLeft
-    },
     {
       id: '2', 
       title: 'Lottie Token Assigner',
@@ -60,6 +57,7 @@ const Dashboard: React.FC = () => {
                 onClick={() => {
                   // Handle tool selection
                   console.log(`Selected tool: ${tool.title}`);
+                  onToolSelect?.(tool.id);
                 }}
               />
             ))}

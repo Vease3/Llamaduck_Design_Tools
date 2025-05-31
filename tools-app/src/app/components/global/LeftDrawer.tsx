@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { 
   Home, 
   FileText
@@ -16,11 +16,11 @@ interface MenuSection {
 
 interface LeftDrawerProps {
   isOpen: boolean;
+  selectedItem: string;
+  onNavigation: (view: string) => void;
 }
 
-const LeftDrawer: React.FC<LeftDrawerProps> = ({ isOpen }) => {
-  const [selectedItem, setSelectedItem] = useState<string>("Dashboard");
-  
+const LeftDrawer: React.FC<LeftDrawerProps> = ({ isOpen, selectedItem, onNavigation }) => {
   const menuSections: MenuSection[] = [
     {
       title: "Overview",
@@ -90,7 +90,7 @@ const LeftDrawer: React.FC<LeftDrawerProps> = ({ isOpen }) => {
                   return (
                     <button
                       key={itemIndex}
-                      onClick={() => setSelectedItem(item.title)}
+                      onClick={() => onNavigation(item.title)}
                       className={`flex items-center gap-2 px-2 py-3 rounded-lg transition-colors group w-full text-left ${
                         isSelected 
                           ? 'bg-[#020A17]' 
