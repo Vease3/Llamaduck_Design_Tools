@@ -69,7 +69,7 @@ export default function Home() {
           marginLeft: isDrawerOpen ? '340px' : '0px'
         }}
       >
-        <TopBar onMenuClick={toggleDrawer} />
+        <TopBar onMenuClick={toggleDrawer} selectedItem={getCurrentSelectedTab()} />
         {renderCurrentView()}
       </div>
     </div>

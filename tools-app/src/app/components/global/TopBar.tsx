@@ -2,9 +2,10 @@ import { PanelLeft, ChevronRight } from 'lucide-react';
 
 interface TopBarProps {
   onMenuClick: () => void;
+  selectedItem: string;
 }
 
-export default function TopBar({ onMenuClick }: TopBarProps) {
+export default function TopBar({ onMenuClick, selectedItem }: TopBarProps) {
   return (
     <div className="h-16 flex items-center px-6 gap-4">
       {/* Menu Icon Container */}
@@ -22,7 +23,7 @@ export default function TopBar({ onMenuClick }: TopBarProps) {
       <div className="flex items-center gap-4">
         <span className="text-[#4F5761] text-base font-normal">Design tools</span>
         <ChevronRight size={16} className="text-[#4F5761]" strokeWidth={1.33} />
-        <span className="text-[#020A17] text-base font-normal">Dashboard</span>
+        <span className="text-[#020A17] text-base font-normal">{selectedItem}</span>
       </div>
     </div>
   );
