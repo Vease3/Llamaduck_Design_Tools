@@ -1,7 +1,7 @@
 import React from 'react';
 import { 
   Home, 
-  FileText
+  TextCursorInput
 } from 'lucide-react';
 
 interface MenuItem {
@@ -31,7 +31,7 @@ const LeftDrawer: React.FC<LeftDrawerProps> = ({ isOpen, selectedItem, onNavigat
     {
       title: "Animation",
       items: [
-        { title: "Lottie Token Assigner", icon: FileText }
+        { title: "Lottie Token Assigner", icon: TextCursorInput }
       ]
     }
   ];

@@ -1,5 +1,5 @@
 import React from 'react';
-import { LayoutPanelLeft, FileText } from 'lucide-react';
+import { LayoutPanelLeft, TextCursorInput } from 'lucide-react';
 import ProjectPreview from './ProjectPreview';
 
 interface ToolCard {
@@ -21,7 +21,7 @@ const Dashboard: React.FC<DashboardProps> = ({ onToolSelect }) => {
       title: 'Lottie Token Assigner',
       description: 'Assign design tokens to color layers',
       category: 'Animation',
-      icon: FileText
+      icon: TextCursorInput
     }
   ];
 
