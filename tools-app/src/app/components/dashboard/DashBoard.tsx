@@ -54,6 +54,10 @@ const Dashboard: React.FC<DashboardProps> = ({ onToolSelect }) => {
                 description={tool.description}
                 category={tool.category}
                 icon={tool.icon}
+                coverImage={tool.id === '2' ? {
+                  light: '/lottie-token-assign/cover-img-lightmode.svg',
+                  dark: '/lottie-token-assign/cover-img-darkmode.svg'
+                } : undefined}
                 onClick={() => {
                   // Handle tool selection
                   console.log(`Selected tool: ${tool.title}`);
