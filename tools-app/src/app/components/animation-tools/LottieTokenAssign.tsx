@@ -251,16 +251,7 @@ const LottieTokenAssign: React.FC<LottieTokenAssignProps> = ({ onBack }) => {
     return (
       <div className="flex flex-col h-full max-h-full overflow-hidden gap-8 p-8">
         {/* Header Section */}
-        <div className="flex items-start justify-between h-[54px] flex-shrink-0">
-          <div className="flex flex-col gap-2">
-            <h1 className="text-2xl font-bold text-[#020A17] leading-[1.21]">
-              Lottie Token Assigner
-            </h1>
-            <p className="text-sm text-[#4F5761] leading-[1.21]">
-              Upload a Lottie JSON file to get started
-            </p>
-          </div>
-          
+        <div className="flex items-start h-[54px] flex-shrink-0">
           <button 
             onClick={onBack}
             className="flex items-center gap-2 bg-[#105FD5] text-white px-4 py-2 pl-2 rounded-2xl h-10 hover:bg-[#0E4FB8] transition-colors flex-shrink-0"
@@ -268,6 +259,17 @@ const LottieTokenAssign: React.FC<LottieTokenAssignProps> = ({ onBack }) => {
             <ChevronLeft size={20} className="text-white" strokeWidth={1.67} />
             <span className="text-base font-medium">Back</span>
           </button>
+          
+          <div className="flex flex-col gap-2 flex-1 text-center">
+            <h1 className="text-2xl font-bold text-[#020A17] leading-[1.21]">
+              Lottie Token Assigner
+            </h1>
+            <p className="text-sm text-[#4F5761] leading-[1.21]">
+              Upload a Lottie JSON file to get started
+            </p>
+          </div>
+
+          <div className="w-[88px] flex-shrink-0"></div>
         </div>
 
         {/* Upload Area */}
@@ -321,16 +323,7 @@ const LottieTokenAssign: React.FC<LottieTokenAssignProps> = ({ onBack }) => {
   return (
     <div className="flex flex-col h-full max-h-full overflow-hidden gap-8 p-8">
       {/* Header Section */}
-      <div className="flex items-start justify-between h-[54px] flex-shrink-0">
-        <div className="flex flex-col gap-2">
-          <h1 className="text-2xl font-bold text-[#020A17] leading-[1.21]">
-            Lottie Token Assigner
-          </h1>
-          <p className="text-sm text-[#4F5761] leading-[1.21]">
-            Assign variable names to colors
-          </p>
-        </div>
-        
+      <div className="flex items-start h-[54px] flex-shrink-0">
         <button 
           onClick={onBack}
           className="flex items-center gap-2 bg-[#105FD5] text-white px-4 py-2 pl-2 rounded-2xl h-10 hover:bg-[#0E4FB8] transition-colors flex-shrink-0"
@@ -338,6 +331,17 @@ const LottieTokenAssign: React.FC<LottieTokenAssignProps> = ({ onBack }) => {
           <ChevronLeft size={20} className="text-white" strokeWidth={1.67} />
           <span className="text-base font-medium">Back</span>
         </button>
+        
+        <div className="flex flex-col gap-2 flex-1 text-center">
+          <h1 className="text-2xl font-bold text-[#020A17] leading-[1.21]">
+            Lottie Token Assigner
+          </h1>
+          <p className="text-sm text-[#4F5761] leading-[1.21]">
+            Assign variable names to colors
+          </p>
+        </div>
+
+        <div className="w-[88px] flex-shrink-0"></div>
       </div>
 
       {/* Main Content Area */}
