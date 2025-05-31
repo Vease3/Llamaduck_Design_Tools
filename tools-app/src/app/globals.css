@@ -1,3 +1,5 @@
+@import "./styles/LightMode.css";
+@import "./styles/DarkMode.css";
 @import "tailwindcss";
 
 body {

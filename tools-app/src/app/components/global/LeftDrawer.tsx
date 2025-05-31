@@ -37,7 +37,7 @@ const LeftDrawer: React.FC<LeftDrawerProps> = ({ isOpen, selectedItem, onNavigat
   ];
 
   return (
-    <div className={`w-[340px] h-screen bg-[#EFF3F8] border-r border-[#DCE0E4] flex flex-col fixed left-0 top-0 z-10 transition-transform duration-300 ease-in-out ${
+    <div className={`w-[340px] h-screen bg-[var(--system-color-elevation-one-background)] border-r border-[var(--system-color-border-primary)] flex flex-col fixed left-0 top-0 z-10 transition-transform duration-300 ease-in-out ${
       isOpen ? 'translate-x-0' : '-translate-x-full'
     }`}>
       {/* Header Section */}
@@ -62,10 +62,10 @@ const LeftDrawer: React.FC<LeftDrawerProps> = ({ isOpen, selectedItem, onNavigat
         
         {/* Title */}
         <div className="flex flex-col gap-1">
-          <h1 className="text-base font-bold text-[#020A17] leading-tight">
+          <h1 className="text-base font-bold text-[var(--system-color-elevation-base-content)] leading-tight">
             Llamaduck Design Tools
           </h1>
-          <p className="text-sm text-[#4F5761] leading-tight">
+          <p className="text-sm text-[var(--system-color-elevation-base-content-tint)] leading-tight">
             creative suite
           </p>
         </div>
@@ -78,7 +78,7 @@ const LeftDrawer: React.FC<LeftDrawerProps> = ({ isOpen, selectedItem, onNavigat
             <div key={sectionIndex} className="flex flex-col gap-2">
               {/* Section Title */}
               <div className="px-2">
-                <h2 className="text-sm text-[#4F5761] font-normal">
+                <h2 className="text-sm text-[var(--system-color-elevation-base-content-tint)] font-normal">
                   {section.title}
                 </h2>
               </div>
@@ -93,19 +93,19 @@ const LeftDrawer: React.FC<LeftDrawerProps> = ({ isOpen, selectedItem, onNavigat
                       onClick={() => onNavigation(item.title)}
                       className={`flex items-center gap-2 px-2 py-3 rounded-lg transition-colors group w-full text-left ${
                         isSelected 
-                          ? 'bg-[#020A17]' 
-                          : 'bg-transparent hover:bg-[#DCE0E4]'
+                          ? 'bg-[var(--system-color-elevation-base-content)]' 
+                          : 'bg-transparent hover:bg-[var(--system-color-elevation-base-hover)]'
                       }`}
                     >
                       <div className="w-5 h-5 flex items-center justify-center">
                         <item.icon 
                           className={`w-5 h-5 ${
-                            isSelected ? 'text-[#FFFFFF]' : 'text-[#020A17]'
+                            isSelected ? 'text-[var(--system-color-elevation-base-content-alt)]' : 'text-[var(--system-color-elevation-base-content)]'
                           }`}
                         />
                       </div>
                       <span className={`text-base font-normal ${
-                        isSelected ? 'text-[#FFFFFF]' : 'text-[#020A17]'
+                        isSelected ? 'text-[var(--system-color-elevation-base-content-alt)]' : 'text-[var(--system-color-elevation-base-content)]'
                       }`}>
                         {item.title}
                       </span>

@@ -49,7 +49,7 @@ export default function Home() {
         );
       default:
         return (
-          <div className="flex-1 p-8 bg-[#F3F6FA] overflow-y-auto">
+          <div className="flex-1 p-8 bg-[var(--system-color-elevation-base-background)] overflow-y-auto">
             <Dashboard onToolSelect={handleToolSelect} />
           </div>
         );
@@ -57,7 +57,7 @@ export default function Home() {
   };
 
   return (
-    <div className="h-screen flex bg-[#F3F6FA] relative overflow-hidden">
+    <div className="h-screen flex bg-[var(--system-color-elevation-base-background)] relative overflow-hidden">
       <LeftDrawer 
         isOpen={isDrawerOpen} 
         selectedItem={getCurrentSelectedTab()}

@@ -254,17 +254,17 @@ const LottieTokenAssign: React.FC<LottieTokenAssignProps> = ({ onBack }) => {
         <div className="flex items-start h-[54px] flex-shrink-0">
           <button 
             onClick={onBack}
-            className="flex items-center gap-2 bg-[#105FD5] text-white px-4 py-2 pl-2 rounded-2xl h-10 hover:bg-[#0E4FB8] transition-colors flex-shrink-0"
+            className="flex items-center gap-2 bg-[var(--system-color-functional-action)] text-[var(--system-color-elevation-base-content-alt)] px-4 py-2 pl-2 rounded-2xl h-10 hover:bg-[var(--system-color-functional-action-alt-hover)] transition-colors flex-shrink-0"
           >
-            <ChevronLeft size={20} className="text-white" strokeWidth={1.67} />
+            <ChevronLeft size={20} className="text-[var(--system-color-elevation-base-content-alt)]" strokeWidth={1.67} />
             <span className="text-base font-medium">Back</span>
           </button>
           
           <div className="flex flex-col gap-2 flex-1 text-center">
-            <h1 className="text-2xl font-bold text-[#020A17] leading-[1.21]">
+            <h1 className="text-2xl font-bold text-[var(--system-color-elevation-base-content)] leading-[1.21]">
               Lottie Token Assigner
             </h1>
-            <p className="text-sm text-[#4F5761] leading-[1.21]">
+            <p className="text-sm text-[var(--system-color-elevation-base-content-tint)] leading-[1.21]">
               Upload a Lottie JSON file to get started
             </p>
           </div>
@@ -273,36 +273,36 @@ const LottieTokenAssign: React.FC<LottieTokenAssignProps> = ({ onBack }) => {
         </div>
 
         {/* Upload Area */}
-        <div className="flex-1 flex items-center justify-center bg-[#F3F6FA] border border-[#DCE0E4] rounded-2xl p-6">
+        <div className="flex-1 flex items-center justify-center bg-[var(--system-color-elevation-base-background)] border border-[var(--system-color-border-primary)] rounded-2xl p-6">
           <div 
             className={`flex flex-col items-center gap-6 p-12 border-2 border-dashed rounded-2xl transition-all cursor-pointer w-full max-w-md ${
               isDragging 
-                ? 'border-[#105FD5] bg-[#105FD5]/5' 
-                : 'border-[#ADB2B8] hover:border-[#105FD5] hover:bg-[#105FD5]/5'
+                ? 'border-[var(--system-color-border-focus)] bg-[var(--system-color-functional-action-alt)]' 
+                : 'border-[var(--system-color-border-secondary)] hover:border-[var(--system-color-border-focus)] hover:bg-[var(--system-color-functional-action-alt)]'
             }`}
             onDragOver={handleDragOver}
             onDragLeave={handleDragLeave}
             onDrop={handleDrop}
             onClick={handleUploadClick}
           >
-            <div className="flex items-center justify-center w-16 h-16 bg-[#EFF3F8] rounded-full">
-              <Upload size={32} className="text-[#105FD5]" strokeWidth={1.5} />
+            <div className="flex items-center justify-center w-16 h-16 bg-[var(--system-color-elevation-one-background)] rounded-full">
+              <Upload size={32} className="text-[var(--system-color-functional-action)]" strokeWidth={1.5} />
             </div>
             
             <div className="flex flex-col items-center gap-2 text-center">
-              <h3 className="text-lg font-bold text-[#020A17] leading-[1.21]">
+              <h3 className="text-lg font-bold text-[var(--system-color-elevation-base-content)] leading-[1.21]">
                 Drop your Lottie file here
               </h3>
-              <p className="text-sm text-[#4F5761] leading-[1.21]">
+              <p className="text-sm text-[var(--system-color-elevation-base-content-tint)] leading-[1.21]">
                 or click to browse for a JSON file
               </p>
-              <p className="text-xs text-[#ADB2B8] leading-[1.21]">
+              <p className="text-xs text-[var(--system-color-border-secondary)] leading-[1.21]">
                 Supports .json files only
               </p>
             </div>
             
-            <button className="flex items-center gap-2 bg-[#105FD5] text-white px-6 py-3 rounded-2xl hover:bg-[#0E4FB8] transition-colors">
-              <FileText size={20} className="text-white" strokeWidth={1.5} />
+            <button className="flex items-center gap-2 bg-[var(--system-color-functional-action)] text-[var(--system-color-elevation-base-content-alt)] px-6 py-3 rounded-2xl hover:bg-[var(--system-color-functional-action-alt-hover)] transition-colors">
+              <FileText size={20} className="text-[var(--system-color-elevation-base-content-alt)]" strokeWidth={1.5} />
               <span className="text-base font-medium">Choose File</span>
             </button>
           </div>
@@ -326,17 +326,17 @@ const LottieTokenAssign: React.FC<LottieTokenAssignProps> = ({ onBack }) => {
       <div className="flex items-start h-[54px] flex-shrink-0">
         <button 
           onClick={onBack}
-          className="flex items-center gap-2 bg-[#105FD5] text-white px-4 py-2 pl-2 rounded-2xl h-10 hover:bg-[#0E4FB8] transition-colors flex-shrink-0"
+          className="flex items-center gap-2 bg-[var(--system-color-functional-action)] text-[var(--system-color-elevation-base-content-alt)] px-4 py-2 pl-2 rounded-2xl h-10 hover:bg-[var(--system-color-functional-action-alt-hover)] transition-colors flex-shrink-0"
         >
-          <ChevronLeft size={20} className="text-white" strokeWidth={1.67} />
+          <ChevronLeft size={20} className="text-[var(--system-color-elevation-base-content-alt)]" strokeWidth={1.67} />
           <span className="text-base font-medium">Back</span>
         </button>
         
         <div className="flex flex-col gap-2 flex-1 text-center">
-          <h1 className="text-2xl font-bold text-[#020A17] leading-[1.21]">
+          <h1 className="text-2xl font-bold text-[var(--system-color-elevation-base-content)] leading-[1.21]">
             Lottie Token Assigner
           </h1>
-          <p className="text-sm text-[#4F5761] leading-[1.21]">
+          <p className="text-sm text-[var(--system-color-elevation-base-content-tint)] leading-[1.21]">
             Assign variable names to colors
           </p>
         </div>
@@ -345,32 +345,32 @@ const LottieTokenAssign: React.FC<LottieTokenAssignProps> = ({ onBack }) => {
       </div>
 
       {/* Main Content Area */}
-      <div className="flex gap-6 bg-[#F3F6FA] border border-[#DCE0E4] rounded-2xl p-6 flex-1 min-h-0 overflow-hidden">
+      <div className="flex gap-6 bg-[var(--system-color-elevation-base-background)] border border-[var(--system-color-border-primary)] rounded-2xl p-6 flex-1 min-h-0 overflow-hidden">
         {/* Left Side - Lottie Preview Area */}
         <div className="flex flex-col justify-end items-end gap-6 flex-1 min-w-0">
           {/* File Info */}
-          <div className="w-full flex items-center justify-between p-4 bg-[#EFF3F8] border border-[#DCE0E4] rounded-lg">
+          <div className="w-full flex items-center justify-between p-4 bg-[var(--system-color-elevation-one-background)] border border-[var(--system-color-border-primary)] rounded-lg">
             <div className="flex items-center gap-3">
-              <FileText size={20} className="text-[#105FD5]" strokeWidth={1.5} />
+              <FileText size={20} className="text-[var(--system-color-functional-action)]" strokeWidth={1.5} />
               <div className="flex flex-col">
-                <span className="text-sm font-bold text-[#020A17] leading-[1.21]">
+                <span className="text-sm font-bold text-[var(--system-color-elevation-base-content)] leading-[1.21]">
                   {uploadedFile.name}
                 </span>
-                <span className="text-xs text-[#4F5761] leading-[1.21]">
+                <span className="text-xs text-[var(--system-color-elevation-base-content-tint)] leading-[1.21]">
                   {(uploadedFile.size / 1024).toFixed(1)} KB • {uniqueColors.length} colors found
                 </span>
               </div>
             </div>
             <button 
               onClick={handleRemoveFile}
-              className="text-sm text-[#4F5761] hover:text-[#020A17] transition-colors"
+              className="text-sm text-[var(--system-color-elevation-base-content-tint)] hover:text-[var(--system-color-elevation-base-content)] transition-colors"
             >
               Remove
             </button>
           </div>
 
           {/* Lottie Preview */}
-          <div className="w-full flex-1 border border-dashed border-[#ADB2B8] rounded-2xl min-h-0 flex items-center justify-center p-8">
+          <div className="w-full flex-1 border border-dashed border-[var(--system-color-border-secondary)] rounded-2xl min-h-0 flex items-center justify-center p-8">
             {lottieData ? (
               <div className="w-full h-full flex items-center justify-center">
                 <Lottie 
@@ -386,7 +386,7 @@ const LottieTokenAssign: React.FC<LottieTokenAssignProps> = ({ onBack }) => {
                 />
               </div>
             ) : (
-              <div className="text-center text-[#4F5761]">
+              <div className="text-center text-[var(--system-color-elevation-base-content-tint)]">
                 <p className="text-sm">Loading Lottie preview...</p>
               </div>
             )}
@@ -396,16 +396,16 @@ const LottieTokenAssign: React.FC<LottieTokenAssignProps> = ({ onBack }) => {
           <button 
             onClick={variablesApplied ? handleDownload : applyColorVariables}
             disabled={!variablesApplied && uniqueColors.some(color => !color.variableName.trim())}
-            className="flex items-center gap-2 bg-[#105FD5] text-white px-4 py-2 rounded-2xl h-10 hover:bg-[#0E4FB8] transition-colors flex-shrink-0 disabled:bg-[#ADB2B8] disabled:cursor-not-allowed"
+            className="flex items-center gap-2 bg-[var(--system-color-functional-action)] text-[var(--system-color-elevation-base-content-alt)] px-4 py-2 rounded-2xl h-10 hover:bg-[var(--system-color-functional-action-alt-hover)] transition-colors flex-shrink-0 disabled:bg-[var(--system-color-border-secondary)] disabled:cursor-not-allowed"
           >
             {variablesApplied ? (
               <>
-                <Download size={20} className="text-white" strokeWidth={2} />
+                <Download size={20} className="text-[var(--system-color-elevation-base-content-alt)]" strokeWidth={2} />
                 <span className="text-base font-medium">Download Lottie</span>
               </>
             ) : (
               <>
-                <Palette size={20} className="text-white" strokeWidth={2} />
+                <Palette size={20} className="text-[var(--system-color-elevation-base-content-alt)]" strokeWidth={2} />
                 <span className="text-base font-medium">Add Color Variables</span>
               </>
             )}
@@ -414,7 +414,7 @@ const LottieTokenAssign: React.FC<LottieTokenAssignProps> = ({ onBack }) => {
 
         {/* Right Side - Color List */}
         <div className="flex flex-col gap-6 w-80 flex-shrink-0 overflow-hidden">
-          <h2 className="text-base font-bold text-[#020A17] leading-[1.21] flex-shrink-0">
+          <h2 className="text-base font-bold text-[var(--system-color-elevation-base-content)] leading-[1.21] flex-shrink-0">
             Colors ({uniqueColors.length})
           </h2>
           
@@ -425,31 +425,31 @@ const LottieTokenAssign: React.FC<LottieTokenAssignProps> = ({ onBack }) => {
                   <div className="flex items-center gap-3">
                     {/* Color Swatch */}
                     <div 
-                      className="w-6 h-6 rounded border border-[#DCE0E4] flex-shrink-0"
+                      className="w-6 h-6 rounded border border-[var(--system-color-border-primary)] flex-shrink-0"
                       style={{ backgroundColor: color.hexValue }}
                     ></div>
                     <div className="flex flex-col flex-1">
-                      <span className="text-sm font-bold text-[#4F5761] leading-[1.21]">
+                      <span className="text-sm font-bold text-[var(--system-color-elevation-base-content-tint)] leading-[1.21]">
                         {color.hexValue.toUpperCase()}
                       </span>
-                      <span className="text-xs text-[#ADB2B8] leading-[1.21]">
+                      <span className="text-xs text-[var(--system-color-border-secondary)] leading-[1.21]">
                         Used {color.usageCount} time{color.usageCount !== 1 ? 's' : ''}
                       </span>
                     </div>
                   </div>
-                  <div className="flex items-center justify-between w-full gap-2 bg-[#EFF3F8] border border-[#DCE0E4] rounded-lg px-2 h-10">
+                  <div className="flex items-center justify-between w-full gap-2 bg-[var(--system-color-elevation-one-background)] border border-[var(--system-color-border-primary)] rounded-lg px-2 h-10">
                     <input
                       type="text"
                       placeholder="Enter variable name"
                       value={color.variableName}
                       onChange={(e) => handleVariableNameChange(color.id, e.target.value)}
-                      className="text-sm text-[#4F5761] bg-transparent border-none outline-none flex-1 leading-[1.21] placeholder:text-[#4F5761]"
+                      className="text-sm text-[var(--system-color-elevation-base-content-tint)] bg-transparent border-none outline-none flex-1 leading-[1.21] placeholder:text-[var(--system-color-elevation-base-content-tint)]"
                     />
                   </div>
                 </div>
               ))
             ) : (
-              <div className="text-center text-[#4F5761] py-8">
+              <div className="text-center text-[var(--system-color-elevation-base-content-tint)] py-8">
                 <p className="text-sm">No colors found in this Lottie file.</p>
               </div>
             )}
