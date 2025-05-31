@@ -1,5 +1,5 @@
 import React from 'react';
-import { LayoutPanelLeft, TextCursorInput } from 'lucide-react';
+import { LayoutPanelLeft, TextCursorInput, FileImage } from 'lucide-react';
 import ProjectPreview from './ProjectPreview';
 
 interface ToolCard {
@@ -22,6 +22,13 @@ const Dashboard: React.FC<DashboardProps> = ({ onToolSelect }) => {
       description: 'Assign design tokens to color layers',
       category: 'Animation',
       icon: TextCursorInput
+    },
+    {
+      id: '3', 
+      title: 'SVG Token Assigner',
+      description: 'Assign design tokens to SVG colors',
+      category: 'Imagery',
+      icon: FileImage
     }
   ];
 
@@ -57,6 +64,9 @@ const Dashboard: React.FC<DashboardProps> = ({ onToolSelect }) => {
                 coverImage={tool.id === '2' ? {
                   light: '/lottie-token-assign/cover-img-lightmode.svg',
                   dark: '/lottie-token-assign/cover-img-darkmode.svg'
+                } : tool.id === '3' ? {
+                  light: '/svg-token-assign/cover-img-lightmode.svg',
+                  dark: '/svg-token-assign/cover-img-darkmode.svg'
                 } : undefined}
                 onClick={() => {
                   // Handle tool selection

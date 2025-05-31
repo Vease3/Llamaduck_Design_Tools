@@ -5,6 +5,7 @@ import LeftDrawer from './components/global/LeftDrawer';
 import TopBar from './components/global/TopBar';
 import Dashboard from './components/dashboard/DashBoard';
 import LottieTokenAssign from './components/animation-tools/LottieTokenAssign';
+import SvgTokenAssign from './components/imagery-tools/SvgTokenAssign';
 
 export default function Home() {
   const [isDrawerOpen, setIsDrawerOpen] = useState(true);
@@ -27,6 +28,8 @@ export default function Home() {
       setCurrentView('dashboard');
     } else if (view === 'Lottie Token Assigner') {
       setCurrentView('2');
+    } else if (view === 'SVG Token Assigner') {
+      setCurrentView('3');
     }
   };
 
@@ -34,6 +37,8 @@ export default function Home() {
     switch (currentView) {
       case '2':
         return 'Lottie Token Assigner';
+      case '3':
+        return 'SVG Token Assigner';
       default:
         return 'Dashboard';
     }
@@ -45,6 +50,12 @@ export default function Home() {
         return (
           <div className="flex-1 overflow-hidden">
             <LottieTokenAssign onBack={handleBackToDashboard} />
+          </div>
+        );
+      case '3': // SVG Token Assigner ID
+        return (
+          <div className="flex-1 overflow-hidden">
+            <SvgTokenAssign onBack={handleBackToDashboard} />
           </div>
         );
       default:

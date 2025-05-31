@@ -1,176 +1,244 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { ChevronLeft, Download, Upload, FileText, Palette } from 'lucide-react';
-import Lottie from 'lottie-react';
 import PrimaryButton from '../global/PrimaryButton';
 
-interface LottieTokenAssignProps {
+interface SvgTokenAssignProps {
   onBack?: () => void;
 }
 
 interface UniqueColor {
   id: string;
-  colorValue: number[]; // RGB values [r, g, b]
-  hexValue: string; // Hex color for display
+  hexValue: string;
   variableName: string;
-  usageCount: number; // How many times this color appears
+  usageCount: number;
 }
 
-const LottieTokenAssign: React.FC<LottieTokenAssignProps> = ({ onBack }) => {
+const SvgTokenAssign: React.FC<SvgTokenAssignProps> = ({ onBack }) => {
   const [uploadedFile, setUploadedFile] = useState<File | null>(null);
-  const [lottieData, setLottieData] = useState<any>(null);
-  const [originalLottieData, setOriginalLottieData] = useState<any>(null);
+  const [svgContent, setSvgContent] = useState<string>('');
+  const [originalSvgContent, setOriginalSvgContent] = useState<string>('');
   const [uniqueColors, setUniqueColors] = useState<UniqueColor[]>([]);
   const [variablesApplied, setVariablesApplied] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  // Extract all unique colors from Lottie JSON
-  const extractUniqueColors = (data: any): UniqueColor[] => {
-    const colorMap = new Map<string, { color: number[], count: number }>();
+  // Extract all unique colors from SVG content
+  const extractUniqueColors = (svgString: string): UniqueColor[] => {
+    const colorMap = new Map<string, number>();
     
-    const findColors = (obj: any) => {
-      if (!obj || typeof obj !== 'object') return;
-      
-      if (Array.isArray(obj)) {
-        obj.forEach(item => findColors(item));
-        return;
-      }
-
-      // Look for color properties in fill and stroke elements
-      if ((obj.ty === 'fl' || obj.ty === 'st') && obj.c && obj.c.k) {
-        let colorValue = obj.c.k;
-        
-        // Handle animated colors (take first keyframe)
-        if (Array.isArray(colorValue) && colorValue.length > 0 && colorValue[0].s) {
-          colorValue = colorValue[0].s;
-        }
-        
-        // Ensure we have a valid RGB array
-        if (Array.isArray(colorValue) && colorValue.length >= 3) {
-          // Convert from 0-1 range to 0-255 range
-          const rgb = [
-            Math.round(colorValue[0] * 255),
-            Math.round(colorValue[1] * 255),
-            Math.round(colorValue[2] * 255)
-          ];
-          
-          const colorKey = `${rgb[0]},${rgb[1]},${rgb[2]}`;
-          
-          if (colorMap.has(colorKey)) {
-            colorMap.get(colorKey)!.count++;
-          } else {
-            colorMap.set(colorKey, { color: rgb, count: 1 });
-          }
-        }
-      }
-
-      // Recursively search all properties
-      Object.keys(obj).forEach(key => {
-        findColors(obj[key]);
-      });
+    // More comprehensive regular expressions to find colors
+    const hexColorRegex = /#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})\b/g;
+    const rgbColorRegex = /rgb\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*\)/g;
+    const rgbaColorRegex = /rgba\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*,\s*[\d.]+\s*\)/g;
+    
+    // More comprehensive fill and stroke attribute patterns
+    const fillStrokeRegex = /(?:fill|stroke)\s*=\s*["']([^"']+)["']/gi;
+    const fillStrokeNoQuotesRegex = /(?:fill|stroke)\s*=\s*([^\s>]+)/gi;
+    
+    // Named colors mapping (more comprehensive)
+    const namedColorMap: { [key: string]: string } = {
+      red: '#ff0000', blue: '#0000ff', green: '#008000', yellow: '#ffff00',
+      orange: '#ffa500', purple: '#800080', pink: '#ffc0cb', brown: '#a52a2a',
+      black: '#000000', white: '#ffffff', gray: '#808080', grey: '#808080',
+      cyan: '#00ffff', magenta: '#ff00ff', lime: '#00ff00', navy: '#000080',
+      maroon: '#800000', olive: '#808000', teal: '#008080', silver: '#c0c0c0',
+      aqua: '#00ffff', fuchsia: '#ff00ff', darkred: '#8b0000', darkgreen: '#006400',
+      darkblue: '#00008b', lightgray: '#d3d3d3', lightgrey: '#d3d3d3',
+      transparent: 'transparent', none: 'none'
     };
-
-    findColors(data);
-
+    
+    const addColor = (colorValue: string) => {
+      if (!colorValue || colorValue === 'none' || colorValue === 'transparent') return;
+      
+      // Skip CSS variables that are already applied
+      if (colorValue.includes('var(')) return;
+      
+      let hex = '';
+      
+      // Check if it's a hex color
+      const hexMatch = colorValue.match(/^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/);
+      if (hexMatch) {
+        hex = hexMatch[0].toLowerCase();
+        // Convert 3-digit hex to 6-digit
+        if (hex.length === 4) {
+          hex = '#' + hex[1] + hex[1] + hex[2] + hex[2] + hex[3] + hex[3];
+        }
+      }
+      
+      // Check if it's an RGB color
+      const rgbMatch = colorValue.match(/^rgb\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*\)$/);
+      if (rgbMatch) {
+        const r = parseInt(rgbMatch[1]);
+        const g = parseInt(rgbMatch[2]);
+        const b = parseInt(rgbMatch[3]);
+        hex = `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`;
+      }
+      
+      // Check if it's an RGBA color
+      const rgbaMatch = colorValue.match(/^rgba\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*,\s*[\d.]+\s*\)$/);
+      if (rgbaMatch) {
+        const r = parseInt(rgbaMatch[1]);
+        const g = parseInt(rgbaMatch[2]);
+        const b = parseInt(rgbaMatch[3]);
+        hex = `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`;
+      }
+      
+      // Check if it's a named color
+      const namedHex = namedColorMap[colorValue.toLowerCase()];
+      if (namedHex && namedHex !== 'transparent' && namedHex !== 'none') {
+        hex = namedHex;
+      }
+      
+      if (hex) {
+        colorMap.set(hex, (colorMap.get(hex) || 0) + 1);
+      }
+    };
+    
+    // Find all hex colors in the SVG
+    let match;
+    while ((match = hexColorRegex.exec(svgString)) !== null) {
+      addColor(match[0]);
+    }
+    
+    // Find all RGB colors in the SVG
+    while ((match = rgbColorRegex.exec(svgString)) !== null) {
+      addColor(match[0]);
+    }
+    
+    // Find all RGBA colors in the SVG
+    while ((match = rgbaColorRegex.exec(svgString)) !== null) {
+      addColor(match[0]);
+    }
+    
+    // Find colors in fill and stroke attributes (with quotes)
+    while ((match = fillStrokeRegex.exec(svgString)) !== null) {
+      const colorValue = match[1].trim();
+      addColor(colorValue);
+    }
+    
+    // Find colors in fill and stroke attributes (without quotes)
+    while ((match = fillStrokeNoQuotesRegex.exec(svgString)) !== null) {
+      const colorValue = match[1].trim();
+      addColor(colorValue);
+    }
+    
     // Convert map to array of UniqueColor objects
     const colors: UniqueColor[] = [];
-    colorMap.forEach((value, key) => {
-      const [r, g, b] = value.color;
-      const hexValue = `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`;
-      
+    colorMap.forEach((count, hexValue) => {
       colors.push({
-        id: `color_${key}`,
-        colorValue: value.color,
+        id: `color_${hexValue.replace('#', '')}`,
         hexValue: hexValue,
         variableName: '',
-        usageCount: value.count
+        usageCount: count
       });
     });
 
     return colors.sort((a, b) => b.usageCount - a.usageCount); // Sort by usage frequency
   };
 
-  // Apply color variables to Lottie JSON
+  // Apply color variables to SVG content
   const applyColorVariables = () => {
-    if (!originalLottieData) return;
+    if (!originalSvgContent) return;
     
-    const modifiedData = JSON.parse(JSON.stringify(originalLottieData));
+    let modifiedSvg = originalSvgContent;
     
-    const addVariablesToColors = (obj: any) => {
-      if (!obj || typeof obj !== 'object') return;
-      
-      if (Array.isArray(obj)) {
-        obj.forEach(item => addVariablesToColors(item));
-        return;
-      }
-
-      // Check if this is a fill or stroke element with color
-      if ((obj.ty === 'fl' || obj.ty === 'st') && obj.c && obj.c.k) {
-        let colorValue = obj.c.k;
+    // For each color with a variable name, replace it in fill and stroke attributes
+    uniqueColors.forEach(color => {
+      if (color.variableName.trim()) {
+        const variableName = color.variableName.trim();
+        const hexValue = color.hexValue;
         
-        // Handle animated colors (take first keyframe)
-        if (Array.isArray(colorValue) && colorValue.length > 0 && colorValue[0].s) {
-          colorValue = colorValue[0].s;
-        }
+        // Replace in fill attributes
+        const fillRegex = new RegExp(`(fill\\s*=\\s*["']?)${hexValue.replace('#', '\\#')}(["']?)`, 'gi');
+        modifiedSvg = modifiedSvg.replace(fillRegex, `$1var(--${variableName}, ${hexValue})$2`);
         
-        if (Array.isArray(colorValue) && colorValue.length >= 3) {
-          // Convert to RGB for matching
-          const rgb = [
-            Math.round(colorValue[0] * 255),
-            Math.round(colorValue[1] * 255),
-            Math.round(colorValue[2] * 255)
-          ];
-          
-          // Find matching color with variable name
-          const matchingColor = uniqueColors.find(color => 
-            color.colorValue[0] === rgb[0] && 
-            color.colorValue[1] === rgb[1] && 
-            color.colorValue[2] === rgb[2] &&
-            color.variableName.trim()
-          );
-          
-          if (matchingColor) {
-            obj.cl = matchingColor.variableName.trim();
+        // Replace in stroke attributes
+        const strokeRegex = new RegExp(`(stroke\\s*=\\s*["']?)${hexValue.replace('#', '\\#')}(["']?)`, 'gi');
+        modifiedSvg = modifiedSvg.replace(strokeRegex, `$1var(--${variableName}, ${hexValue})$2`);
+        
+        // Also handle named colors if they were used
+        Object.entries({
+          red: '#ff0000', blue: '#0000ff', green: '#008000', yellow: '#ffff00',
+          orange: '#ffa500', purple: '#800080', pink: '#ffc0cb', brown: '#a52a2a',
+          black: '#000000', white: '#ffffff', gray: '#808080', grey: '#808080',
+          cyan: '#00ffff', magenta: '#ff00ff', lime: '#00ff00', navy: '#000080',
+          maroon: '#800000', olive: '#808000', teal: '#008080', silver: '#c0c0c0',
+          aqua: '#00ffff', fuchsia: '#ff00ff'
+        }).forEach(([namedColor, namedHex]) => {
+          if (namedHex === hexValue) {
+            const namedFillRegex = new RegExp(`(fill\\s*=\\s*["']?)${namedColor}(["']?)`, 'gi');
+            modifiedSvg = modifiedSvg.replace(namedFillRegex, `$1var(--${variableName}, ${hexValue})$2`);
+            
+            const namedStrokeRegex = new RegExp(`(stroke\\s*=\\s*["']?)${namedColor}(["']?)`, 'gi');
+            modifiedSvg = modifiedSvg.replace(namedStrokeRegex, `$1var(--${variableName}, ${hexValue})$2`);
           }
+        });
+      }
+    });
+    
+    // Add CSS variables definition to the SVG
+    const variableDefinitions = uniqueColors
+      .filter(color => color.variableName.trim())
+      .map(color => `--${color.variableName.trim()}: ${color.hexValue};`)
+      .join(' ');
+    
+    if (variableDefinitions) {
+      // Add style tag with CSS variables if it doesn't exist
+      if (!modifiedSvg.includes('<style>') && !modifiedSvg.includes('<defs>')) {
+        modifiedSvg = modifiedSvg.replace(
+          /<svg([^>]*)>/,
+          `<svg$1><defs><style>:root { ${variableDefinitions} }</style></defs>`
+        );
+      } else if (modifiedSvg.includes('<defs>') && !modifiedSvg.includes('<style>')) {
+        modifiedSvg = modifiedSvg.replace(
+          /<defs>/,
+          `<defs><style>:root { ${variableDefinitions} }</style>`
+        );
+      } else if (modifiedSvg.includes('<style>')) {
+        // Check if the style tag already has variable definitions
+        if (modifiedSvg.includes(':root')) {
+          modifiedSvg = modifiedSvg.replace(
+            /(:root\s*\{[^}]*)(})/,
+            `$1 ${variableDefinitions}$2`
+          );
+        } else {
+          modifiedSvg = modifiedSvg.replace(
+            /<style>/,
+            `<style>:root { ${variableDefinitions} }\n`
+          );
         }
       }
-
-      // Recursively process all object properties
-      Object.keys(obj).forEach(key => {
-        addVariablesToColors(obj[key]);
-      });
-    };
-
-    addVariablesToColors(modifiedData);
-    setLottieData(modifiedData);
+    }
+    
+    setSvgContent(modifiedSvg);
     setVariablesApplied(true);
   };
 
-  // Read and parse the uploaded JSON file
+  // Read and parse the uploaded SVG file
   useEffect(() => {
     if (uploadedFile) {
       const reader = new FileReader();
       reader.onload = (e) => {
         try {
-          const jsonData = JSON.parse(e.target?.result as string);
-          setOriginalLottieData(jsonData);
-          setLottieData(jsonData);
+          const svgString = e.target?.result as string;
+          setOriginalSvgContent(svgString);
+          setSvgContent(svgString);
           
           // Extract unique colors
-          const colors = extractUniqueColors(jsonData);
+          const colors = extractUniqueColors(svgString);
           setUniqueColors(colors);
           setVariablesApplied(false);
         } catch (error) {
-          console.error('Error parsing Lottie JSON:', error);
-          setLottieData(null);
-          setOriginalLottieData(null);
+          console.error('Error parsing SVG:', error);
+          setSvgContent('');
+          setOriginalSvgContent('');
           setUniqueColors([]);
         }
       };
       reader.readAsText(uploadedFile);
     } else {
-      setLottieData(null);
-      setOriginalLottieData(null);
+      setSvgContent('');
+      setOriginalSvgContent('');
       setUniqueColors([]);
       setVariablesApplied(false);
     }
@@ -191,10 +259,13 @@ const LottieTokenAssign: React.FC<LottieTokenAssignProps> = ({ onBack }) => {
     setIsDragging(false);
     
     const files = Array.from(e.dataTransfer.files);
-    const jsonFile = files.find(file => file.type === 'application/json' || file.name.endsWith('.json'));
+    const svgFile = files.find(file => 
+      file.type === 'image/svg+xml' || 
+      file.name.toLowerCase().endsWith('.svg')
+    );
     
-    if (jsonFile) {
-      setUploadedFile(jsonFile);
+    if (svgFile) {
+      setUploadedFile(svgFile);
     }
   };
 
@@ -202,7 +273,7 @@ const LottieTokenAssign: React.FC<LottieTokenAssignProps> = ({ onBack }) => {
     const files = e.target.files;
     if (files && files[0]) {
       const file = files[0];
-      if (file.type === 'application/json' || file.name.endsWith('.json')) {
+      if (file.type === 'image/svg+xml' || file.name.toLowerCase().endsWith('.svg')) {
         setUploadedFile(file);
       }
     }
@@ -214,8 +285,8 @@ const LottieTokenAssign: React.FC<LottieTokenAssignProps> = ({ onBack }) => {
 
   const handleRemoveFile = () => {
     setUploadedFile(null);
-    setLottieData(null);
-    setOriginalLottieData(null);
+    setSvgContent('');
+    setOriginalSvgContent('');
     setUniqueColors([]);
     setVariablesApplied(false);
     if (fileInputRef.current) {
@@ -232,15 +303,14 @@ const LottieTokenAssign: React.FC<LottieTokenAssignProps> = ({ onBack }) => {
   };
 
   const handleDownload = () => {
-    if (!lottieData) return;
+    if (!svgContent) return;
     
-    const dataStr = JSON.stringify(lottieData); // Remove formatting for smaller file size
-    const dataBlob = new Blob([dataStr], { type: 'application/json' });
+    const dataBlob = new Blob([svgContent], { type: 'image/svg+xml' });
     const url = URL.createObjectURL(dataBlob);
     
     const link = document.createElement('a');
     link.href = url;
-    link.download = `${uploadedFile?.name.replace('.json', '') || 'lottie'}_with_variables.json`;
+    link.download = `${uploadedFile?.name.replace('.svg', '') || 'svg'}_with_variables.svg`;
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -264,10 +334,10 @@ const LottieTokenAssign: React.FC<LottieTokenAssignProps> = ({ onBack }) => {
           
           <div className="flex flex-col gap-2 flex-1 text-center">
             <h1 className="text-2xl font-bold text-[var(--system-color-elevation-base-content)] leading-[1.21]">
-              Lottie Token Assigner
+              SVG Token Assigner
             </h1>
             <p className="text-sm text-[var(--system-color-elevation-base-content-tint)] leading-[1.21]">
-              Upload a Lottie JSON file to get started
+              Upload an SVG file to get started
             </p>
           </div>
 
@@ -289,13 +359,13 @@ const LottieTokenAssign: React.FC<LottieTokenAssignProps> = ({ onBack }) => {
           >
             <div className="flex flex-col items-center gap-2 text-center">
               <h3 className="text-lg font-bold text-[var(--system-color-elevation-base-content)] leading-[1.21]">
-                Drop your Lottie file here
+                Drop your SVG file here
               </h3>
               <p className="text-sm text-[var(--system-color-elevation-base-content-tint)] leading-[1.21]">
-                or click to browse for a JSON file
+                or click to browse for an SVG file
               </p>
               <p className="text-xs text-[var(--system-color-border-secondary)] leading-[1.21]">
-                Supports .json files only
+                Supports .svg files only
               </p>
             </div>
             
@@ -310,7 +380,7 @@ const LottieTokenAssign: React.FC<LottieTokenAssignProps> = ({ onBack }) => {
           <input
             ref={fileInputRef}
             type="file"
-            accept=".json,application/json"
+            accept=".svg,image/svg+xml"
             onChange={handleFileSelect}
             className="hidden"
           />
@@ -335,7 +405,7 @@ const LottieTokenAssign: React.FC<LottieTokenAssignProps> = ({ onBack }) => {
         
         <div className="flex flex-col gap-2 flex-1 text-center">
           <h1 className="text-2xl font-bold text-[var(--system-color-elevation-base-content)] leading-[1.21]">
-            Lottie Token Assigner
+            SVG Token Assigner
           </h1>
           <p className="text-sm text-[var(--system-color-elevation-base-content-tint)] leading-[1.21]">
             Assign variable names to colors
@@ -347,7 +417,7 @@ const LottieTokenAssign: React.FC<LottieTokenAssignProps> = ({ onBack }) => {
 
       {/* Main Content Area */}
       <div className="flex gap-6 bg-[var(--system-color-elevation-base-background)] border border-[var(--system-color-border-primary)] rounded-2xl p-6 flex-1 min-h-0 overflow-hidden">
-        {/* Left Side - Lottie Preview Area */}
+        {/* Left Side - SVG Preview Area */}
         <div className="flex flex-col justify-end items-end gap-6 flex-1 min-w-0">
           {/* File Info */}
           <div className="w-full flex items-center justify-between p-4 bg-[var(--system-color-elevation-one-background)] border border-[var(--system-color-border-primary)] rounded-lg">
@@ -370,25 +440,20 @@ const LottieTokenAssign: React.FC<LottieTokenAssignProps> = ({ onBack }) => {
             </button>
           </div>
 
-          {/* Lottie Preview */}
-          <div className="w-full flex-1 border border-dashed border-[var(--system-color-border-secondary)] rounded-2xl min-h-0 flex items-center justify-center p-8">
-            {lottieData ? (
-              <div className="w-full h-full flex items-center justify-center">
-                <Lottie 
-                  animationData={lottieData}
-                  loop={true}
-                  autoplay={true}
-                  style={{ 
-                    maxWidth: '100%', 
-                    maxHeight: '100%',
-                    width: 'auto',
-                    height: 'auto'
-                  }}
-                />
-              </div>
+          {/* SVG Preview */}
+          <div className="w-full flex-1 border border-dashed border-[var(--system-color-border-secondary)] rounded-2xl min-h-0 flex items-center justify-center p-8 bg-white">
+            {svgContent ? (
+              <div 
+                className="w-full h-full flex items-center justify-center"
+                dangerouslySetInnerHTML={{ __html: svgContent }}
+                style={{ 
+                  maxWidth: '100%', 
+                  maxHeight: '100%'
+                }}
+              />
             ) : (
               <div className="text-center text-[var(--system-color-elevation-base-content-tint)]">
-                <p className="text-sm">Loading Lottie preview...</p>
+                <p className="text-sm">Loading SVG preview...</p>
               </div>
             )}
           </div>
@@ -401,7 +466,7 @@ const LottieTokenAssign: React.FC<LottieTokenAssignProps> = ({ onBack }) => {
             iconStrokeWidth={2}
             variant="compact"
           >
-            {variablesApplied ? 'Download Lottie' : 'Add Color Variables'}
+            {variablesApplied ? 'Download SVG' : 'Add Color Variables'}
           </PrimaryButton>
         </div>
 
@@ -443,7 +508,7 @@ const LottieTokenAssign: React.FC<LottieTokenAssignProps> = ({ onBack }) => {
               ))
             ) : (
               <div className="text-center text-[var(--system-color-elevation-base-content-tint)] py-8">
-                <p className="text-sm">No colors found in this Lottie file.</p>
+                <p className="text-sm">No colors found in this SVG file.</p>
               </div>
             )}
           </div>
@@ -453,4 +518,4 @@ const LottieTokenAssign: React.FC<LottieTokenAssignProps> = ({ onBack }) => {
   );
 };
 
-export default LottieTokenAssign;
+export default SvgTokenAssign;

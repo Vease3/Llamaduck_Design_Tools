@@ -1,7 +1,8 @@
 import React from 'react';
 import { 
   Home, 
-  TextCursorInput
+  TextCursorInput,
+  FileImage
 } from 'lucide-react';
 
 interface MenuItem {
@@ -32,6 +33,12 @@ const LeftDrawer: React.FC<LeftDrawerProps> = ({ isOpen, selectedItem, onNavigat
       title: "Animation",
       items: [
         { title: "Lottie Token Assigner", icon: TextCursorInput }
+      ]
+    },
+    {
+      title: "Imagery",
+      items: [
+        { title: "SVG Token Assigner", icon: FileImage }
       ]
     }
   ];
@@ -91,7 +98,7 @@ const LeftDrawer: React.FC<LeftDrawerProps> = ({ isOpen, selectedItem, onNavigat
                     <button
                       key={itemIndex}
                       onClick={() => onNavigation(item.title)}
-                      className={`flex items-center gap-2 px-2 py-3 rounded-lg transition-colors group w-full text-left ${
+                      className={`flex items-center gap-2 px-4 py-3 rounded-lg transition-colors group w-full text-left ${
                         isSelected 
                           ? 'bg-[var(--system-color-elevation-base-content)]' 
                           : 'bg-transparent hover:bg-[var(--system-color-elevation-base-hover)]'
