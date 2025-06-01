@@ -2,7 +2,8 @@ import React from 'react';
 import { 
   Home, 
   TextCursorInput,
-  FileImage
+  FileImage,
+  Video
 } from 'lucide-react';
 
 interface MenuItem {
@@ -40,6 +41,12 @@ const LeftDrawer: React.FC<LeftDrawerProps> = ({ isOpen, selectedItem, onNavigat
       items: [
         { title: "SVG Token Assigner", icon: FileImage }
       ]
+    },
+    {
+      title: "Misc Tools",
+      items: [
+        { title: "Youtube Transcriber", icon: Video }
+      ]
     }
   ];
 
@@ -50,7 +57,10 @@ const LeftDrawer: React.FC<LeftDrawerProps> = ({ isOpen, selectedItem, onNavigat
       {/* Header Section */}
       <div className="flex items-center gap-4 p-6">
         {/* Logo */}
-        <div className="w-10 h-10 flex items-center justify-center">
+        <button 
+          onClick={() => onNavigation('Dashboard')}
+          className="w-10 h-10 flex items-center justify-center cursor-pointer hover:opacity-80 transition-opacity"
+        >
           <svg width="40" height="40" viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
             <rect width="56" height="56" rx="14" fill="#0B3183"/>
             <g clipPath="url(#Frame15__a)">
@@ -65,7 +75,7 @@ const LeftDrawer: React.FC<LeftDrawerProps> = ({ isOpen, selectedItem, onNavigat
               </clipPath>
             </defs>
           </svg>
-        </div>
+        </button>
         
         {/* Title */}
         <div className="flex flex-col gap-1">
@@ -111,7 +121,7 @@ const LeftDrawer: React.FC<LeftDrawerProps> = ({ isOpen, selectedItem, onNavigat
                           }`}
                         />
                       </div>
-                      <span className={`text-base font-normal ${
+                      <span className={`text-base font-normal truncate ${
                         isSelected ? 'text-[var(--system-color-elevation-base-content-alt)]' : 'text-[var(--system-color-elevation-base-content)]'
                       }`}>
                         {item.title}

@@ -128,8 +128,10 @@
     --system-color-elevation-three-content: #020a17;
     --system-color-elevation-three-content-tint: #38404c;
     --system-color-elevation-three-content-alt: #ffffff;
-    --system-color-elevation-superior-background: #fefeff;
-    --system-color-elevation-superior-content: #020a17;
+    --system-color-elevation-superior-background: #020a17;
+    --system-color-elevation-superior-background-alt: #fefeff;
+    --system-color-elevation-superior-content: #ffffff;
+    --system-color-elevation-superior-content-alt: #020a17;
     --system-color-functional-special: #8d14d9;
     --system-color-functional-success: #078337;
     --system-color-functional-success-alt: #c4e0d3;

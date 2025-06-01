@@ -6,6 +6,7 @@ import TopBar from './components/global/TopBar';
 import Dashboard from './components/dashboard/DashBoard';
 import LottieTokenAssign from './components/animation-tools/LottieTokenAssign';
 import SvgTokenAssign from './components/imagery-tools/SvgTokenAssign';
+import YoutubeTranscriber from './components/misc-tools/YoutubeTranscriber';
 
 export default function Home() {
   const [isDrawerOpen, setIsDrawerOpen] = useState(true);
@@ -30,6 +31,8 @@ export default function Home() {
       setCurrentView('2');
     } else if (view === 'SVG Token Assigner') {
       setCurrentView('3');
+    } else if (view === 'Youtube Transcriber') {
+      setCurrentView('4');
     }
   };
 
@@ -39,6 +42,8 @@ export default function Home() {
         return 'Lottie Token Assigner';
       case '3':
         return 'SVG Token Assigner';
+      case '4':
+        return 'Youtube Transcriber';
       default:
         return 'Dashboard';
     }
@@ -56,6 +61,12 @@ export default function Home() {
         return (
           <div className="flex-1 overflow-hidden">
             <SvgTokenAssign onBack={handleBackToDashboard} />
+          </div>
+        );
+      case '4': // YouTube Video Transcriber ID
+        return (
+          <div className="flex-1 overflow-hidden">
+            <YoutubeTranscriber onBack={handleBackToDashboard} />
           </div>
         );
       default:

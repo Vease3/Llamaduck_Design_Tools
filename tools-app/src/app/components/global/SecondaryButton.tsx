@@ -1,7 +1,7 @@
 import React from 'react';
 import { LucideIcon } from 'lucide-react';
 
-interface PrimaryButtonProps {
+interface SecondaryButtonProps {
   children: React.ReactNode;
   onClick?: () => void;
   disabled?: boolean;
@@ -13,7 +13,7 @@ interface PrimaryButtonProps {
   className?: string;
 }
 
-const PrimaryButton: React.FC<PrimaryButtonProps> = ({
+const SecondaryButton: React.FC<SecondaryButtonProps> = ({
   children,
   onClick,
   disabled = false,
@@ -26,15 +26,16 @@ const PrimaryButton: React.FC<PrimaryButtonProps> = ({
 }) => {
   const baseClasses = `
     flex items-center gap-2 
-    bg-[var(--system-color-functional-action)] 
-    text-[var(--system-color-elevation-base-content-alt)] 
-    border border-[var(--system-color-functional-action)]
+    bg-[var(--system-color-elevation-one-background)] 
+    text-[var(--system-color-elevation-one-content-tint)] 
+    border border-[var(--system-color-border-primary)]
     rounded-2xl 
     font-medium 
     transition-colors 
     flex-shrink-0
     cursor-pointer
-    hover:bg-[var(--system-color-functional-action-hover)]
+    hover:bg-[var(--system-color-elevation-base-background)]
+    hover:border-[var(--system-color-border-primary-hover)]
     disabled:bg-[var(--system-color-border-secondary)] 
     disabled:cursor-not-allowed
     disabled:border-[var(--system-color-border-secondary)]
@@ -45,7 +46,7 @@ const PrimaryButton: React.FC<PrimaryButtonProps> = ({
     compact: 'px-4 py-2 text-base h-10'
   };
 
-  const iconClasses = variant === 'compact' && Icon && iconPosition === 'left' ? 'pl-2' : 
+  const iconClasses = variant === 'compact' && Icon && iconPosition === 'left' ? 'pl-4' : 
                      variant === 'compact' && Icon && iconPosition === 'right' ? 'pr-2' : '';
 
   return (
@@ -57,7 +58,7 @@ const PrimaryButton: React.FC<PrimaryButtonProps> = ({
       {Icon && iconPosition === 'left' && (
         <Icon 
           size={iconSize} 
-          className="text-[var(--system-color-elevation-base-content-alt)]" 
+          className="text-[var(--system-color-elevation-one-content-tint)]" 
           strokeWidth={iconStrokeWidth} 
         />
       )}
@@ -65,7 +66,7 @@ const PrimaryButton: React.FC<PrimaryButtonProps> = ({
       {Icon && iconPosition === 'right' && (
         <Icon 
           size={iconSize} 
-          className="text-[var(--system-color-elevation-base-content-alt)]" 
+          className="text-[var(--system-color-elevation-one-content-tint)]" 
           strokeWidth={iconStrokeWidth} 
         />
       )}
@@ -73,4 +74,4 @@ const PrimaryButton: React.FC<PrimaryButtonProps> = ({
   );
 };
 
-export default PrimaryButton;
+export default SecondaryButton;

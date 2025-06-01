@@ -1,5 +1,5 @@
 import React from 'react';
-import { LayoutPanelLeft, TextCursorInput, FileImage } from 'lucide-react';
+import { LayoutPanelLeft, TextCursorInput, FileImage, Video } from 'lucide-react';
 import ProjectPreview from './ProjectPreview';
 
 interface ToolCard {
@@ -29,6 +29,13 @@ const Dashboard: React.FC<DashboardProps> = ({ onToolSelect }) => {
       description: 'Assign design tokens to SVG colors',
       category: 'Imagery',
       icon: FileImage
+    },
+    {
+      id: '4',
+      title: 'YouTube Video Transcriber',
+      description: 'Takes a youtube link then transcribes it for you',
+      category: 'Misc Tools',
+      icon: Video
     }
   ];
 
@@ -52,7 +59,7 @@ const Dashboard: React.FC<DashboardProps> = ({ onToolSelect }) => {
           </h2>
           
           {/* Tool Cards Grid */}
-          <div className="flex gap-2">
+          <div className="grid grid-cols-3 gap-4">
             {toolCards.map((tool) => (
               <ProjectPreview
                 key={tool.id}
@@ -67,6 +74,9 @@ const Dashboard: React.FC<DashboardProps> = ({ onToolSelect }) => {
                 } : tool.id === '3' ? {
                   light: '/svg-token-assign/cover-img-lightmode.svg',
                   dark: '/svg-token-assign/cover-img-darkmode.svg'
+                } : tool.id === '4' ? {
+                  light: '/youtube-transcriber/cover-img-lightmode.svg',
+                  dark: '/youtube-transcriber/cover-img-darkmode.svg'
                 } : undefined}
                 onClick={() => {
                   // Handle tool selection
@@ -75,67 +85,6 @@ const Dashboard: React.FC<DashboardProps> = ({ onToolSelect }) => {
                 }}
               />
             ))}
-            
-            {/* Placeholder cards to match the design */}
-            <div className="flex-1 opacity-0">
-              <div className="flex-1 flex flex-col gap-[10px] p-4 bg-[var(--system-color-elevation-two-background)] border border-[var(--system-color-border-primary)] rounded-2xl hover:bg-[var(--system-color-elevation-base-hover)] hover:border-[var(--system-color-border-hover-primary)] transition-all duration-200 cursor-pointer group relative">
-                <div className="flex flex-col gap-4">
-                  <div className="flex justify-center items-center bg-[var(--system-color-elevation-base-background)] group-hover:bg-[var(--system-color-elevation-base-hover)] rounded-lg p-[10px] aspect-[16/9] transition-all duration-200">
-                    <div className="w-6 h-6 rounded flex items-center justify-center">
-                      <LayoutPanelLeft 
-                        className="w-[18px] h-[18px] text-[var(--system-color-elevation-base-content)] stroke-2"
-                      />
-                    </div>
-                  </div>
-                  <div className="flex flex-col gap-2">
-                    <div className="flex flex-col gap-1">
-                      <h3 className="text-sm font-bold text-[var(--system-color-elevation-base-content)] leading-[1.21]">
-                        Featured Tools
-                      </h3>
-                      <p className="text-sm text-[var(--system-color-elevation-base-content)] font-normal leading-[1.21] line-clamp-2 h-[2.42em]">
-                        A collection of useful design tools
-                      </p>
-                    </div>
-                    {/* Category Label - Below description */}
-                    <div className="flex justify-end">
-                      <span className="text-xs text-[var(--system-color-elevation-base-content-tint)] font-normal leading-[1.21]">
-                        Animation
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            
-            <div className="flex-1 opacity-0">
-              <div className="flex-1 flex flex-col gap-[10px] p-4 bg-[var(--system-color-elevation-two-background)] border border-[var(--system-color-border-primary)] rounded-2xl hover:bg-[var(--system-color-elevation-base-hover)] hover:border-[var(--system-color-border-hover-primary)] transition-all duration-200 cursor-pointer group relative">
-                <div className="flex flex-col gap-4">
-                  <div className="flex justify-center items-center bg-[var(--system-color-elevation-base-background)] group-hover:bg-[var(--system-color-elevation-base-hover)] rounded-lg p-[10px] aspect-[16/9] transition-all duration-200">
-                    <div className="w-6 h-6 rounded flex items-center justify-center">
-                      <LayoutPanelLeft 
-                        className="w-[18px] h-[18px] text-[var(--system-color-elevation-base-content)] stroke-2"
-                      />
-                    </div>
-                  </div>
-                  <div className="flex flex-col gap-2">
-                    <div className="flex flex-col gap-1">
-                      <h3 className="text-sm font-bold text-[var(--system-color-elevation-base-content)] leading-[1.21]">
-                        Featured Tools
-                      </h3>
-                      <p className="text-sm text-[var(--system-color-elevation-base-content)] font-normal leading-[1.21] line-clamp-2 h-[2.42em]">
-                        A collection of useful design tools
-                      </p>
-                    </div>
-                    {/* Category Label - Below description */}
-                    <div className="flex justify-end">
-                      <span className="text-xs text-[var(--system-color-elevation-base-content-tint)] font-normal leading-[1.21]">
-                        Animation
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
           </div>
         </div>
       </div>
