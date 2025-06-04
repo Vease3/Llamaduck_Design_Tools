@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import Image from 'next/image';
 
 interface ProjectPreviewProps {
   id: string;
@@ -56,9 +57,11 @@ const ProjectPreview: React.FC<ProjectPreviewProps> = ({
         {/* Icon/Cover Image Container */}
         <div className="flex justify-center items-center bg-[var(--system-color-elevation-base-background)] group-hover:bg-[var(--system-color-elevation-base-hover)] rounded-lg p-[10px] aspect-[16/9] transition-all duration-200 overflow-hidden">
           {coverImage ? (
-            <img 
+            <Image 
               src={theme === 'dark' ? coverImage.dark : coverImage.light}
               alt={`${title} cover`}
+              width={200}
+              height={113}
               className="w-full h-full object-cover rounded-md"
             />
           ) : (

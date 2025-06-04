@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { ChevronLeft, Download, Upload, FileText, Palette } from 'lucide-react';
+import { ChevronLeft, Download, FileText, Palette } from 'lucide-react';
 import PrimaryButton from '../global/PrimaryButton';
 
 interface SvgTokenAssignProps {

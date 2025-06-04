@@ -1,5 +1,5 @@
 import React from 'react';
-import { LayoutPanelLeft, TextCursorInput, FileImage, Video } from 'lucide-react';
+import { TextCursorInput, FileImage, Video } from 'lucide-react';
 import ProjectPreview from './ProjectPreview';
 
 interface ToolCard {

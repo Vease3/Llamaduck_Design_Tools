@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { ChevronLeft, Download, Upload, FileText, Palette } from 'lucide-react';
+import { ChevronLeft, Download, FileText, Palette } from 'lucide-react';
 import Lottie from 'lottie-react';
 import PrimaryButton from '../global/PrimaryButton';
 
@@ -15,20 +15,43 @@ interface UniqueColor {
   usageCount: number; // How many times this color appears
 }
 
+// Lottie animation data types
+interface LottieColorKeyframe {
+  s: number[];
+  t: number;
+}
+
+interface LottieColor {
+  k: number[] | LottieColorKeyframe[];
+}
+
+interface LottieElement {
+  ty: string;
+  c?: LottieColor;
+  cl?: string;
+  [key: string]: unknown;
+}
+
+interface LottieData {
+  assets?: unknown[];
+  layers?: LottieElement[];
+  [key: string]: unknown;
+}
+
 const LottieTokenAssign: React.FC<LottieTokenAssignProps> = ({ onBack }) => {
   const [uploadedFile, setUploadedFile] = useState<File | null>(null);
-  const [lottieData, setLottieData] = useState<any>(null);
-  const [originalLottieData, setOriginalLottieData] = useState<any>(null);
+  const [lottieData, setLottieData] = useState<LottieData | null>(null);
+  const [originalLottieData, setOriginalLottieData] = useState<LottieData | null>(null);
   const [uniqueColors, setUniqueColors] = useState<UniqueColor[]>([]);
   const [variablesApplied, setVariablesApplied] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   // Extract all unique colors from Lottie JSON
-  const extractUniqueColors = (data: any): UniqueColor[] => {
+  const extractUniqueColors = (data: LottieData): UniqueColor[] => {
     const colorMap = new Map<string, { color: number[], count: number }>();
     
-    const findColors = (obj: any) => {
+    const findColors = (obj: unknown): void => {
       if (!obj || typeof obj !== 'object') return;
       
       if (Array.isArray(obj)) {
@@ -36,22 +59,25 @@ const LottieTokenAssign: React.FC<LottieTokenAssignProps> = ({ onBack }) => {
         return;
       }
 
+      const element = obj as LottieElement;
+      
       // Look for color properties in fill and stroke elements
-      if ((obj.ty === 'fl' || obj.ty === 'st') && obj.c && obj.c.k) {
-        let colorValue = obj.c.k;
+      if ((element.ty === 'fl' || element.ty === 'st') && element.c && element.c.k) {
+        let colorValue: number[] | LottieColorKeyframe[] = element.c.k;
         
         // Handle animated colors (take first keyframe)
-        if (Array.isArray(colorValue) && colorValue.length > 0 && colorValue[0].s) {
-          colorValue = colorValue[0].s;
+        if (Array.isArray(colorValue) && colorValue.length > 0 && typeof colorValue[0] === 'object' && 's' in colorValue[0]) {
+          colorValue = (colorValue[0] as LottieColorKeyframe).s;
         }
         
         // Ensure we have a valid RGB array
-        if (Array.isArray(colorValue) && colorValue.length >= 3) {
+        if (Array.isArray(colorValue) && colorValue.length >= 3 && typeof colorValue[0] === 'number') {
+          const numericColorValue = colorValue as number[];
           // Convert from 0-1 range to 0-255 range
           const rgb = [
-            Math.round(colorValue[0] * 255),
-            Math.round(colorValue[1] * 255),
-            Math.round(colorValue[2] * 255)
+            Math.round(numericColorValue[0] * 255),
+            Math.round(numericColorValue[1] * 255),
+            Math.round(numericColorValue[2] * 255)
           ];
           
           const colorKey = `${rgb[0]},${rgb[1]},${rgb[2]}`;
@@ -65,8 +91,8 @@ const LottieTokenAssign: React.FC<LottieTokenAssignProps> = ({ onBack }) => {
       }
 
       // Recursively search all properties
-      Object.keys(obj).forEach(key => {
-        findColors(obj[key]);
+      Object.keys(element).forEach(key => {
+        findColors(element[key]);
       });
     };
 
@@ -94,9 +120,9 @@ const LottieTokenAssign: React.FC<LottieTokenAssignProps> = ({ onBack }) => {
   const applyColorVariables = () => {
     if (!originalLottieData) return;
     
-    const modifiedData = JSON.parse(JSON.stringify(originalLottieData));
+    const modifiedData = JSON.parse(JSON.stringify(originalLottieData)) as LottieData;
     
-    const addVariablesToColors = (obj: any) => {
+    const addVariablesToColors = (obj: unknown): void => {
       if (!obj || typeof obj !== 'object') return;
       
       if (Array.isArray(obj)) {
@@ -104,21 +130,24 @@ const LottieTokenAssign: React.FC<LottieTokenAssignProps> = ({ onBack }) => {
         return;
       }
 
+      const element = obj as LottieElement;
+
       // Check if this is a fill or stroke element with color
-      if ((obj.ty === 'fl' || obj.ty === 'st') && obj.c && obj.c.k) {
-        let colorValue = obj.c.k;
+      if ((element.ty === 'fl' || element.ty === 'st') && element.c && element.c.k) {
+        let colorValue: number[] | LottieColorKeyframe[] = element.c.k;
         
         // Handle animated colors (take first keyframe)
-        if (Array.isArray(colorValue) && colorValue.length > 0 && colorValue[0].s) {
-          colorValue = colorValue[0].s;
+        if (Array.isArray(colorValue) && colorValue.length > 0 && typeof colorValue[0] === 'object' && 's' in colorValue[0]) {
+          colorValue = (colorValue[0] as LottieColorKeyframe).s;
         }
         
-        if (Array.isArray(colorValue) && colorValue.length >= 3) {
+        if (Array.isArray(colorValue) && colorValue.length >= 3 && typeof colorValue[0] === 'number') {
+          const numericColorValue = colorValue as number[];
           // Convert to RGB for matching
           const rgb = [
-            Math.round(colorValue[0] * 255),
-            Math.round(colorValue[1] * 255),
-            Math.round(colorValue[2] * 255)
+            Math.round(numericColorValue[0] * 255),
+            Math.round(numericColorValue[1] * 255),
+            Math.round(numericColorValue[2] * 255)
           ];
           
           // Find matching color with variable name
@@ -130,14 +159,14 @@ const LottieTokenAssign: React.FC<LottieTokenAssignProps> = ({ onBack }) => {
           );
           
           if (matchingColor) {
-            obj.cl = matchingColor.variableName.trim();
+            element.cl = matchingColor.variableName.trim();
           }
         }
       }
 
       // Recursively process all object properties
-      Object.keys(obj).forEach(key => {
-        addVariablesToColors(obj[key]);
+      Object.keys(element).forEach(key => {
+        addVariablesToColors(element[key]);
       });
     };
 

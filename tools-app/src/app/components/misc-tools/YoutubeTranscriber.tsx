@@ -43,7 +43,7 @@ const YoutubeTranscriber: React.FC<YoutubeTranscriberProps> = ({ onBack }) => {
       } else {
         setError(data.error || 'Failed to transcribe video');
       }
-    } catch (err) {
+    } catch {
       setError('Network error occurred. Please try again.');
     } finally {
       setIsLoading(false);
