@@ -210,8 +210,8 @@ const YoutubeTranscriber: React.FC<YoutubeTranscriberProps> = ({ onBack }) => {
 
           {/* Error Message */}
           {error && (
-            <div className="w-full p-3 bg-red-50 border border-red-200 rounded-lg">
-              <p className="text-sm text-red-600">{error}</p>
+            <div className="w-full p-3 bg-[var(--system-color-functional-error-alt)] border border-[var(--system-color-functional-error-alt)] rounded-lg outline-1 outline-[var(--system-color-functional-error)]">
+              <p className="text-sm text-[var(--system-color-functional-error)]">{error}</p>
             </div>
           )}
         </div>
