@@ -31,6 +31,13 @@ const Dashboard: React.FC<DashboardProps> = ({ onToolSelect }) => {
       icon: FileImage
     },
     {
+      id: '5',
+      title: 'Video to GIF Converter',
+      description: 'Convert video files to high-quality GIFs',
+      category: 'Imagery',
+      icon: Video
+    },
+    {
       id: '4',
       title: 'YouTube Video Transcriber',
       description: 'Takes a youtube link then transcribes it for you',
@@ -77,7 +84,7 @@ const Dashboard: React.FC<DashboardProps> = ({ onToolSelect }) => {
                 } : tool.id === '4' ? {
                   light: '/youtube-transcriber/cover-img-lightmode.svg',
                   dark: '/youtube-transcriber/cover-img-darkmode.svg'
-                } : undefined}
+                } : tool.id === '5' ? undefined : undefined}
                 onClick={() => {
                   // Handle tool selection
                   console.log(`Selected tool: ${tool.title}`);

@@ -9,6 +9,8 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@ffmpeg/ffmpeg": "^0.12.15",
+    "@ffmpeg/util": "^0.12.2",
     "@lottiefiles/lottie-player": "^2.0.12",
     "lottie-player": "^1.0.0",
     "lottie-react": "^2.4.1",
