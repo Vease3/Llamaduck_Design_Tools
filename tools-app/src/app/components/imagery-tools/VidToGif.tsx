@@ -51,7 +51,7 @@ const VidToGif: React.FC<VidToGifProps> = ({ onBack }) => {
           console.log(message);
         });
         
-        ffmpeg.on('progress', ({ progress, time }) => {
+        ffmpeg.on('progress', ({ progress }) => {
           setConversionProgress(`Converting... ${Math.round(progress * 100)}%`);
         });
 
