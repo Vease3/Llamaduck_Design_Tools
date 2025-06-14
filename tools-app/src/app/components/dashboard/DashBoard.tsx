@@ -84,7 +84,10 @@ const Dashboard: React.FC<DashboardProps> = ({ onToolSelect }) => {
                 } : tool.id === '4' ? {
                   light: '/youtube-transcriber/cover-img-lightmode.svg',
                   dark: '/youtube-transcriber/cover-img-darkmode.svg'
-                } : tool.id === '5' ? undefined : undefined}
+                } : tool.id === '5' ? {
+                  light: '/GIFConvert/gifmock.gif',
+                  dark: '/GIFConvert/gifmock.gif'
+                } : undefined}
                 onClick={() => {
                   // Handle tool selection
                   console.log(`Selected tool: ${tool.title}`);

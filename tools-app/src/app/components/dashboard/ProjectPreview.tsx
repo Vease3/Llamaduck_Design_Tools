@@ -15,6 +15,7 @@ interface ProjectPreviewProps {
 }
 
 const ProjectPreview: React.FC<ProjectPreviewProps> = ({
+  id,
   title,
   description,
   category,
@@ -62,7 +63,11 @@ const ProjectPreview: React.FC<ProjectPreviewProps> = ({
               alt={`${title} cover`}
               width={200}
               height={113}
-              className="w-full h-full object-cover rounded-md"
+              className={`rounded-md ${
+                id === '5' 
+                  ? 'w-[64%] h-[64%] object-contain' 
+                  : 'w-full h-full object-cover'
+              }`}
             />
           ) : (
             <div className="w-6 h-6 rounded flex items-center justify-center">
