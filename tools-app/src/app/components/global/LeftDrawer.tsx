@@ -52,7 +52,7 @@ const LeftDrawer: React.FC<LeftDrawerProps> = ({ isOpen, selectedItem, onNavigat
   ];
 
   return (
-    <div className={`w-[300px] h-screen bg-[var(--system-color-elevation-one-background)] border-r border-[var(--system-color-border-primary)] flex flex-col fixed left-0 top-0 z-10 transition-transform duration-300 ease-in-out ${
+    <div className={`w-[300px] h-screen bg-[var(--system-color-elevation-base-background-tint)] border-r border-[var(--system-color-border-primary)] flex flex-col fixed left-0 top-0 z-10 transition-transform duration-300 ease-in-out ${
       isOpen ? 'translate-x-0' : '-translate-x-full'
     }`}>
       {/* Header Section */}
