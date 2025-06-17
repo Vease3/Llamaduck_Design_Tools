@@ -84,7 +84,7 @@ const ProjectPreview: React.FC<ProjectPreviewProps> = ({
             <h3 className="text-sm font-bold text-[var(--system-color-elevation-base-content)] leading-[1.21]">
               {title}
             </h3>
-            <p className="text-sm text-[var(--system-color-elevation-base-content)] font-normal leading-[1.21] line-clamp-2 h-[2.42em]">
+            <p className="text-sm text-[var(--system-color-elevation-base-content-tint)] font-normal leading-[1.21] line-clamp-2 h-[2.42em]">
               {description}
             </p>
           </div>

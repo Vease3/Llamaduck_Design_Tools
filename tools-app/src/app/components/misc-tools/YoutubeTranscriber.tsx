@@ -210,8 +210,22 @@ const YoutubeTranscriber: React.FC<YoutubeTranscriberProps> = ({ onBack }) => {
 
           {/* Error Message */}
           {error && (
-            <div className="w-full p-3 bg-[var(--system-color-functional-error-alt)] border border-[var(--system-color-functional-error-alt)] rounded-lg outline-1 outline-[var(--system-color-functional-error)]">
-              <p className="text-sm text-[var(--system-color-functional-error)]">{error}</p>
+            <div className="w-full max-w-md">
+              <div className="p-4 bg-[var(--system-color-functional-error-alt)] border border-[var(--system-color-functional-error)] rounded-lg">
+                <div className="flex flex-col gap-2">
+                  <p className="text-sm text-[var(--system-color-functional-error)] font-medium">
+                    Unable to transcribe video
+                  </p>
+                  <p className="text-sm text-[var(--system-color-functional-error)]">
+                    {error}
+                  </p>
+                  <div className="mt-2 pt-2 border-t border-[var(--system-color-functional-error)] border-opacity-30">
+                    <p className="text-xs text-[var(--system-color-functional-error)] opacity-80">
+                      <strong>Tips:</strong> Make sure the video has captions enabled and is publicly available. Educational videos and news content usually have captions.
+                    </p>
+                  </div>
+                </div>
+              </div>
             </div>
           )}
         </div>
