@@ -6,6 +6,7 @@ import TopBar from './components/global/TopBar';
 import Dashboard from './components/dashboard/DashBoard';
 import LottieTokenAssign from './components/animation-tools/LottieTokenAssign';
 import SvgTokenAssign from './components/imagery-tools/SvgTokenAssign';
+import ImageNotan from './components/imagery-tools/ImageNotan';
 import VidToGif from './components/imagery-tools/VidToGif';
 import YoutubeTranscriber from './components/misc-tools/YoutubeTranscriber';
 
@@ -32,6 +33,8 @@ export default function Home() {
       setCurrentView('2');
     } else if (view === 'SVG Token Assigner') {
       setCurrentView('3');
+    } else if (view === 'Image Notan') {
+      setCurrentView('6');
     } else if (view === 'Video to GIF Converter') {
       setCurrentView('5');
     } else if (view === 'Youtube Transcriber') {
@@ -45,6 +48,8 @@ export default function Home() {
         return 'Lottie Token Assigner';
       case '3':
         return 'SVG Token Assigner';
+      case '6':
+        return 'Image Notan';
       case '5':
         return 'Video to GIF Converter';
       case '4':
@@ -66,6 +71,12 @@ export default function Home() {
         return (
           <div className="flex-1 overflow-hidden">
             <SvgTokenAssign onBack={handleBackToDashboard} />
+          </div>
+        );
+      case '6': // Image Notan ID
+        return (
+          <div className="flex-1 overflow-hidden">
+            <ImageNotan onBack={handleBackToDashboard} />
           </div>
         );
       case '5': // Video to GIF Converter ID

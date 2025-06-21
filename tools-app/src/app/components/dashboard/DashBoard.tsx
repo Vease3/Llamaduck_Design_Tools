@@ -31,6 +31,13 @@ const Dashboard: React.FC<DashboardProps> = ({ onToolSelect }) => {
       icon: FileImage
     },
     {
+      id: '6',
+      title: 'Image Notan',
+      description: 'Create notan effects from images',
+      category: 'Imagery',
+      icon: FileImage
+    },
+    {
       id: '5',
       title: 'Video to GIF Converter',
       description: 'Convert video files to high-quality GIFs',
@@ -87,6 +94,9 @@ const Dashboard: React.FC<DashboardProps> = ({ onToolSelect }) => {
                 } : tool.id === '5' ? {
                   light: '/GIFConvert/gifmock.gif',
                   dark: '/GIFConvert/gifmock.gif'
+                } : tool.id === '6' ? {
+                  light: '/ImageNotan/cover-img.png',
+                  dark: '/ImageNotan/cover-img.png'
                 } : undefined}
                 onClick={() => {
                   // Handle tool selection
