@@ -1,5 +1,5 @@
 import React from 'react';
-import { TextCursorInput, FileImage, Video } from 'lucide-react';
+import { TextCursorInput, FileImage, Video, Hash } from 'lucide-react';
 import ProjectPreview from './ProjectPreview';
 
 interface ToolCard {
@@ -36,6 +36,13 @@ const Dashboard: React.FC<DashboardProps> = ({ onToolSelect }) => {
       description: 'Create notan effects from images',
       category: 'Imagery',
       icon: FileImage
+    },
+    {
+      id: '7',
+      title: 'ASCII Art Converter',
+      description: 'Convert images to ASCII art with customizable settings',
+      category: 'Imagery',
+      icon: Hash
     },
     {
       id: '5',
