@@ -3,7 +3,8 @@ import {
   Home, 
   TextCursorInput,
   FileImage,
-  Video
+  Video,
+  Contrast
 } from 'lucide-react';
 
 interface MenuItem {
@@ -40,7 +41,7 @@ const LeftDrawer: React.FC<LeftDrawerProps> = ({ isOpen, selectedItem, onNavigat
       title: "Imagery",
       items: [
         { title: "SVG Token Assigner", icon: FileImage },
-        { title: "Image Notan", icon: FileImage },
+        { title: "Image Notan", icon: Contrast },
         { title: "Video to GIF Converter", icon: Video }
       ]
     },
