@@ -104,6 +104,9 @@ const Dashboard: React.FC<DashboardProps> = ({ onToolSelect }) => {
                 } : tool.id === '6' ? {
                   light: '/ImageNotan/cover-img.png',
                   dark: '/ImageNotan/cover-img.png'
+                } : tool.id === '7' ? {
+                  light: '/ascii-convert/cover-img-lightmode.png',
+                  dark: '/ascii-convert/cover-img-darkmode.png'
                 } : undefined}
                 onClick={() => {
                   // Handle tool selection
